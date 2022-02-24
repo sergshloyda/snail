@@ -19,7 +19,7 @@ void Snail::on_btnLoad_clicked()
 	QString fileName = QFileDialog::getOpenFileName(0, "Open Dialog", "", "*.jpg *.png");
 	GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
 	gridScene->loadOpenCVImg(fileName);
-	ui.graphicsView->fitInView(gridScene->pixmapItem());
+	ui.graphicsView->fitInView(gridScene->pixmapItem(),Qt::KeepAspectRatio);
 	QApplication::restoreOverrideCursor();	
 
 }
