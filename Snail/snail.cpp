@@ -1,9 +1,11 @@
 #include "snail.h"
+#include <QDesktopWidget>
 
 Snail::Snail(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
 
 }
 
