@@ -65,7 +65,7 @@ void QScaledGraphView::resizeEvent(QResizeEvent *event)
 {
 	QGraphicsView::resizeEvent(event);
 
-	// fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
+
 }
 void QScaledGraphView::ScaleView(qreal factor)
 {
@@ -78,7 +78,8 @@ void QScaledGraphView::ScaleView(qreal factor)
     matrix.scale(factor, factor).map(1.0, 1.0, &newTx, &newTy);
     double newFactor = (newTx + newTy) * 0.5;
 
-    if ((0.07 <= newFactor <= 100.0) ||
+
+	if  (((newFactor >= 0.07) && (newFactor <= 100.0))||
         ((currentFactor < 0.07) && (newFactor > currentFactor)) ||
         ((currentFactor > 100.0) && (newFactor < currentFactor))) 
     {

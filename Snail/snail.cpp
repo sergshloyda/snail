@@ -1,6 +1,6 @@
 #include "snail.h"
 #include <QDesktopWidget>
-
+#include "boardsizedlg.h"
 Snail::Snail(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -39,5 +39,8 @@ void Snail::on_btnAdjustImg_clicked()
 
 void Snail::on_btnAdjGrid_clicked()
 {
-
+	GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
+	BoardSizeDlg* dlg=new BoardSizeDlg(this);
+	dlg->exec();
+	gridScene->adjustGrid(QSize(150,60));
 }

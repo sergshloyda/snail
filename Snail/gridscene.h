@@ -33,7 +33,7 @@ public:
 	void drawGrid();
 	//void drawBoardPixmap();
 	bool loadBackgroundImg(const QString& fileName);
-	void adjustSceneSize();
+
 	void drawBoundingBox();
 	bool loadPixmap(const QString& fileName);
 	void calculateBoardImgRect();
@@ -76,8 +76,9 @@ private:
 	QPointF translate_to_phisical_coordinate(const QPointF& in,const QSize& pixel_in_mm);
 	QPointF originScenePoint();
 public:
-	void adjustBoardImg(void);
-	
+	void adjustBoardImg();
+	void adjustSceneSize();
+	void adjustGrid(const QSize& sizeBoardInMM);
 	QRect boardImgRect();
 };
 

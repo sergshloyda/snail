@@ -267,11 +267,14 @@ void GridScene::adjustBoardImg()
 	clear();
 	board_PixmapItem=addPixmap(board_img);
 	board_PixmapItem->setPos(originScenePoint());
-	gridItem->setBoardPhisicalSize(QSize(150,60));
+
+}
+void GridScene::adjustGrid(const QSize& sizeBoardInMM)
+{
+	gridItem->setBoardPhisicalSize(sizeBoardInMM);
 	gridItem->setPos(originScenePoint());
 	addItem(gridItem);
 }
-
 
 QPointF GridScene::originScenePoint(void)
 {
