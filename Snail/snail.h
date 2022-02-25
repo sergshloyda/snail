@@ -20,6 +20,7 @@ public:
 public slots:
 		void on_btnLoad_clicked();
 		void on_btnAdjustImg_clicked();
+		void on_btnAdjGrid_clicked();
 
 private:
 	Ui::SnailClass ui;

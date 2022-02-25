@@ -17,6 +17,11 @@ void Snail::on_btnLoad_clicked()
 {
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	QString fileName = QFileDialog::getOpenFileName(0, "Open Dialog", "", "*.jpg *.png");
+	if(fileName.isEmpty())
+		{
+			QApplication::restoreOverrideCursor();	
+			return;
+		}
 	GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
 	gridScene->loadOpenCVImg(fileName);
 	ui.graphicsView->fitInView(gridScene->pixmapItem(),Qt::KeepAspectRatio);
@@ -29,4 +34,10 @@ void Snail::on_btnAdjustImg_clicked()
 	gridScene->adjustBoardImg();
 	//ui.graphicsView->fitInView(gridScene->pixmapItem());
 	QApplication::restoreOverrideCursor();	
+}
+
+
+void Snail::on_btnAdjGrid_clicked()
+{
+
 }
