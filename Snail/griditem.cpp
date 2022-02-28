@@ -1,11 +1,12 @@
 #include "griditem.h"
 #include "gridscene.h"
+
 GridItem::GridItem(QGraphicsObject *parent)
 	: QGraphicsObject(parent)
 {
-		pen_fat=QPen(Qt::yellow, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+	pen_fat=QPen(QBrush(Qt::yellow), RulerTraits::PEN_FAT, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 		pen_fat.setCosmetic(true);
-		pen_thin=QPen(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+		pen_thin=QPen(QBrush(Qt::yellow), RulerTraits::PEN_THIN, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 		pen_thin.setCosmetic(true);
 }
 
@@ -39,6 +40,7 @@ void GridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	painter->drawRect(boundingRect());
 	drawHorizRuler(painter,boundingRect().topLeft(),boundingRect().width(),pixel_in_mm.width());
 	drawVertRuler(painter,boundingRect().topLeft(),boundingRect().height(),pixel_in_mm.height());
+	drawGridLegend(painter);
         Q_UNUSED(option);
         Q_UNUSED(widget);
 }
@@ -47,7 +49,8 @@ void GridItem::drawHorizRuler(QPainter *painter,const QPointF& origin,int length
 
 	int ruler_origin=1;
 
-	int step_cm=0,step_mm=0;
+	int step_cm=0;
+	int step_mm=0;
 
 	for(int i=ruler_origin;i<length;i++)
 	{
@@ -130,4 +133,18 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 	
 
 	}
+}
+void GridItem::drawGridLegend(QPainter *painter)
+{
+	QFont legend_font("Arial", 36);
+	painter->setPen(pen_thin);
+	painter->setFont(legend_font);
+	QString origin_txt=QString("%1").arg(0);
+	QString right_top_txt=QString("%1").arg(phisicalSize.width());
+	QString left_bottom_txt=QString("%1").arg(phisicalSize.height());
+	painter->drawText((boundingRect().topLeft()+QPoint(10,50)),origin_txt);
+	painter->drawText((boundingRect().topRight()+QPoint(-85,50)),right_top_txt);
+	painter->drawText((boundingRect().bottomLeft()+QPoint(10,-10)),left_bottom_txt);
+
+
 }

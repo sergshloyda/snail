@@ -29,18 +29,26 @@ void Snail::on_btnLoad_clicked()
 
 }
 void Snail::on_btnAdjustImg_clicked()
-{	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+{	
+
 	GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
-	gridScene->adjustBoardImg();
+		BoardSizeDlg* dlg=new BoardSizeDlg(this);
+	if(dlg->exec()==QDialog::Accepted){
+		QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+		gridScene->adjustBoardImg(dlg->boardSize());
+		QApplication::restoreOverrideCursor();	
+	}
+	delete dlg;
+
 	//ui.graphicsView->fitInView(gridScene->pixmapItem());
-	QApplication::restoreOverrideCursor();	
+
 }
 
 
 void Snail::on_btnAdjGrid_clicked()
 {
 	GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
-	BoardSizeDlg* dlg=new BoardSizeDlg(this);
-	dlg->exec();
-	gridScene->adjustGrid(QSize(150,60));
+	
+		gridScene->adjustGrid();
+
 }

@@ -18,9 +18,9 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -32,8 +32,8 @@ public:
     QFormLayout *formLayout;
     QLabel *label;
     QLabel *label_2;
-    QLineEdit *lineEditWidth;
-    QLineEdit *lineEditHeight;
+    QSpinBox *spinBoxWidth;
+    QSpinBox *spinBoxHeight;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *hboxLayout;
     QSpacerItem *spacerItem;
@@ -68,15 +68,19 @@ public:
 
         formLayout->setWidget(1, QFormLayout::LabelRole, label_2);
 
-        lineEditWidth = new QLineEdit(boardSizeDlg);
-        lineEditWidth->setObjectName(QStringLiteral("lineEditWidth"));
+        spinBoxWidth = new QSpinBox(boardSizeDlg);
+        spinBoxWidth->setObjectName(QStringLiteral("spinBoxWidth"));
+        spinBoxWidth->setMinimum(1);
+        spinBoxWidth->setMaximum(10000);
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, lineEditWidth);
+        formLayout->setWidget(0, QFormLayout::FieldRole, spinBoxWidth);
 
-        lineEditHeight = new QLineEdit(boardSizeDlg);
-        lineEditHeight->setObjectName(QStringLiteral("lineEditHeight"));
+        spinBoxHeight = new QSpinBox(boardSizeDlg);
+        spinBoxHeight->setObjectName(QStringLiteral("spinBoxHeight"));
+        spinBoxHeight->setMinimum(1);
+        spinBoxHeight->setMaximum(10000);
 
-        formLayout->setWidget(1, QFormLayout::FieldRole, lineEditHeight);
+        formLayout->setWidget(1, QFormLayout::FieldRole, spinBoxHeight);
 
 
         verticalLayout->addLayout(formLayout);

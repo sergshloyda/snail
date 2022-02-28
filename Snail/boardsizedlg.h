@@ -10,6 +10,7 @@ class BoardSizeDlg : public QDialog,public Ui::boardSizeDlg
 public:
 	BoardSizeDlg(QWidget *parent);
 	~BoardSizeDlg();
+	QSize boardSize() const;
 
 private:
 	

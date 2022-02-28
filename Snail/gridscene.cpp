@@ -8,7 +8,7 @@ GridScene::GridScene(QObject *parent)
 	sceneSize(640,640),
 	mouse_pointer_in_board_img_rect(false)
 {
-	bg_image_=new QImage();
+	//bg_image_=new QImage();
 	cross=new BigCross();
 	setBackgroundBrush(QColor("#393939"));
 	openCVImage=new OpenCVImage();
@@ -20,74 +20,20 @@ GridScene::~GridScene()
 {
 
 }
+/*Bring into line phisical and logical size board
+logical size must been multiplies phisical size
+Приводит в соответствие физические и логические размеры платы.
+Для правильного позиционирования логические размеры платы должны быть кратны физическим размерам*/
 
-
-void GridScene::drawGrid()
+void GridScene::scaleBoardImg(const QSize& sizeBoard)
 {
-
-
-	QPen pen_fat(Qt::yellow, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-	img_rect_item=addRect(board_img_rect,pen_fat,QBrush(Qt::NoBrush));
-	img_rect_item->setCursor(Qt::PointingHandCursor);
-
-
-
-	QPen pen_ruler(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-
-	drawGridLegend();
-	addItem(cross);
-
-
-
-}
-
-
-//calculate size scene based on background img size
-void GridScene::adjustSceneSize(void)
-{
-	if(bg_image_){
-		sceneSize.setWidth(bg_image_->width());
-		sceneSize.setHeight(bg_image_->height());
-	}
-	setSceneRect(0,0, sceneSize.width() , sceneSize.height());
-}
-
-
-void GridScene::drawBoundingBox(void)
-{
-	QPen pen(Qt::red, 2, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
-	addRect(sceneRect(),pen,QBrush(Qt::NoBrush));
-
-}
-
-bool GridScene::loadPixmap(const QString& fileName)
-{
-	bool load_result=false;
-	load_result= board_img.load(fileName);
-	return load_result;
-}
-void GridScene::calculateBoardImgRect()
-{
-	int delta_x = sceneRect().width()-board_img.width();     
-	int delta_y =sceneRect().height()-board_img.height(); 
-	QPoint img_top_left(delta_x/2,delta_y/2);
-	//	board_PixmapItem->setPos(img_top_left);
-	board_img_rect.setTopLeft(img_top_left);
-	board_img_rect.setWidth(board_img.width());
-	board_img_rect.setHeight(board_img.height());
-
-
-}
-
-
-void GridScene::scaleBoardImg()
-{
-	int width_scale_factor=(sceneRect().width()/boardSize::WIDTH)-1;
-	int height_scale_factor=(sceneRect().height()/boardSize::HEIGHT)-1;
+	int width_scale_factor=(sceneRect().width()/sizeBoard.width())-1;
+	int height_scale_factor=(sceneRect().height()/sizeBoard.height())-1;
 	int scale_factor=qMin(width_scale_factor,height_scale_factor);
-	int predict_width=boardSize::WIDTH*scale_factor;
-	int predict_height=boardSize::HEIGHT*scale_factor;
+	int predict_width=sizeBoard.width()*scale_factor;
+	int predict_height=sizeBoard.height()*scale_factor;
 	board_img= board_img.scaled(QSize(predict_width,predict_height));
+	boardPhisicalSize=sizeBoard;
 
 }
 
@@ -97,8 +43,8 @@ void GridScene::drawGridLegend(const QSize& sizeGrid)
 	QFont legend_font("Arial", 14);
 
 	QString origin_txt=QString("%1").arg(0);
-	QString right_top_txt=QString("%1").arg(boardSize::WIDTH);
-	QString left_bottom_txt=QString("%1").arg(boardSize::HEIGHT);
+	QString right_top_txt=QString("%1").arg(boardPhisicalSize.width());
+	QString left_bottom_txt=QString("%1").arg(boardPhisicalSize.height());
 
 	QGraphicsTextItem* text_item_origin=addText(origin_txt,legend_font);
 	QGraphicsTextItem* text_item_top_right=addText(right_top_txt,legend_font);
@@ -119,11 +65,7 @@ void GridScene::drawGridLegend(const QSize& sizeGrid)
 }
 
 
-void GridScene::calculatePixelInMm()
-{
-	pixel_in_mm.setWidth(board_img_rect.width()/boardSize::WIDTH);
-	pixel_in_mm.setHeight(board_img_rect.height()/boardSize::HEIGHT);
-}
+
 void GridScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 
@@ -258,20 +200,20 @@ QGraphicsPixmapItem* GridScene::pixmapItem()
 	return board_PixmapItem;
 }
 
-void GridScene::adjustBoardImg()
+void GridScene::adjustBoardImg(const QSize& sizeBoardInMM)
 {
 	openCVImage->adjustImgToBoundingRect();
 	board_img=openCVImage->curPixmap();
-	scaleBoardImg();
+	scaleBoardImg(sizeBoardInMM);
 	board_img_rect=board_img.rect();
 	clear();
 	board_PixmapItem=addPixmap(board_img);
 	board_PixmapItem->setPos(originScenePoint());
 
 }
-void GridScene::adjustGrid(const QSize& sizeBoardInMM)
+void GridScene::adjustGrid()
 {
-	gridItem->setBoardPhisicalSize(sizeBoardInMM);
+	gridItem->setBoardPhisicalSize(boardPhisicalSize);
 	gridItem->setPos(originScenePoint());
 	addItem(gridItem);
 }

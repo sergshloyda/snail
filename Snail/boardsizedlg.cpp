@@ -11,3 +11,8 @@ BoardSizeDlg::~BoardSizeDlg()
 {
 
 }
+
+QSize BoardSizeDlg::boardSize() const
+{
+	return QSize(spinBoxWidth->value(),spinBoxHeight->value());
+}
