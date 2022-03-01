@@ -11,7 +11,7 @@ QScaledGraphView::QScaledGraphView(QWidget *parent)
 	setResizeAnchor(QGraphicsView::NoAnchor);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+	
 	_numScheduledScalings=0;
 	gridScene=new GridScene(this);
 	setScene(gridScene);

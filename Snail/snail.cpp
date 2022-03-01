@@ -50,5 +50,6 @@ void Snail::on_btnAdjGrid_clicked()
 	GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
 	
 		gridScene->adjustGrid();
+		ui.graphicsView->setMouseTracking(true);
 
 }

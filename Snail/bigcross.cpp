@@ -1,5 +1,6 @@
 #include "bigcross.h"
 #include "qdebug.h"
+#include "gridscene.h"
 BigCross::BigCross()
 	: QGraphicsObject()
 {
@@ -15,6 +16,9 @@ BigCross::~BigCross()
 }
 QRectF BigCross::boundingRect() const
 {
+	//GridScene* scene=reinterpret_cast<GridScene*>(this->scene());
+	//
+	//return scene->boardImgRect();
 	return QRectF(BigCrossBoundingRect::LEFT,BigCrossBoundingRect::TOP,BigCrossBoundingRect::WIDTH,BigCrossBoundingRect::HEIGHT);
 }
 

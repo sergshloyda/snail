@@ -14,10 +14,10 @@ class BigCross : public QGraphicsObject
 {
 	Q_OBJECT
 		enum BigCrossBoundingRect{
-			LEFT=-1000,
-			TOP=-1000,
-			WIDTH=2000,
-			HEIGHT=2000
+			LEFT=-1500,
+			TOP=-1500,
+			WIDTH=3000,
+			HEIGHT=3000
 	}_BigCrossBoundingRect;
 public:
 	BigCross();

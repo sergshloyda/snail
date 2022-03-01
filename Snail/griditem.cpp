@@ -99,11 +99,11 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 		if(!(i%step))
 		{
 
-			qDebug()<< counter++;
+		
 			step_mm+=step;
 			if (!(i%step)&&((i%(step*5))&&(i%(step*10)))) { 
 				
-					qDebug()<<"draw mm";
+		
 				painter->setPen(pen_thin);
 				QLine dash_mm(QPoint(origin.x(),origin.y()+step_mm),QPoint(origin.x()+step,origin.y()+step_mm));
 				painter->drawLine(dash_mm);
@@ -112,7 +112,7 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 			
 				 if(!(i%(step*5))&&(i%(step*10))) {
 				
-						qDebug()<<"draw mm*5";
+			
 				painter->setPen(pen_thin);
 				QLine dash_mm(QPoint(origin.x(),origin.y()+step_mm),QPoint(origin.x()+step*mult_length_dash,origin.y()+step_mm));
 				painter->drawLine(dash_mm);
@@ -121,7 +121,7 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 			
 						if(!(i%(step*10))) {
 							
-					qDebug()<<"draw cm";
+	
 			painter->setPen(pen_fat);
 			step_cm+=step*10;
 			QLine dash_cm(QPoint(origin.x(),origin.y()+step_cm),QPoint(origin.x()+step*mult_length_dash,origin.y()+step_cm));

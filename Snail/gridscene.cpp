@@ -18,7 +18,7 @@ GridScene::GridScene(QObject *parent)
 
 GridScene::~GridScene()
 {
-
+	delete gridItem;
 }
 /*Bring into line phisical and logical size board
 logical size must been multiplies phisical size
@@ -72,17 +72,19 @@ void GridScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	cursor_position.setX(mouseEvent->scenePos().x());
 	cursor_position.setY(mouseEvent->scenePos().y());
 	CrossDimention cross_dimention;
-
+	
 	if(board_img_rect.contains(cursor_position,true))
 	{
+		qDebug()<<"Cursor position in scene:"<< cursor_position;
+		qDebug()<<"BoardImgRect:"<< board_img_rect;
+		cross_dimention.dX1=-(cursor_position.x()-boardMargin::LEFT_MARGIN);
+		
 
-		cross_dimention.dX1=-(-img_rect_item->boundingRect().left()+cursor_position.x());
-
-		cross_dimention.dY1=-(-img_rect_item->boundingRect().top()+cursor_position.y());
-		cross_dimention.dX2=img_rect_item->boundingRect().width()+cross_dimention.dX1;
-		cross_dimention.dY2=img_rect_item->boundingRect().height()+cross_dimention.dY1;
+		cross_dimention.dY1=-(cursor_position.y()-boardMargin::TOP_MARGIN);
+		cross_dimention.dX2=board_img_rect.width()+cross_dimention.dX1;
+		cross_dimention.dY2=board_img_rect.height()+cross_dimention.dY1;
 		QApplication::setOverrideCursor(Qt::BlankCursor/*Qt::CrossCursor*/);
-		//qDebug()<<cursor_position;
+		
 		cross->setBoundingRect(cross_dimention);
 		cross->setPos(mouseEvent->scenePos() );
 		cross->show();
@@ -216,6 +218,8 @@ void GridScene::adjustGrid()
 	gridItem->setBoardPhisicalSize(boardPhisicalSize);
 	gridItem->setPos(originScenePoint());
 	addItem(gridItem);
+
+	addItem(cross);
 }
 
 QPointF GridScene::originScenePoint(void)
