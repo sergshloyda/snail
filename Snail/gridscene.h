@@ -49,6 +49,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+	void drawForeground(QPainter * painter, const QRectF & rect) ;
 	signals:
 		void change_cursor_position(const QPointF& pos);
 

@@ -5,20 +5,19 @@ class QGraphicsTextItem;
 class QGraphicsRectItem;
 GridScene::GridScene(QObject *parent)
 	: QGraphicsScene(parent),
-	sceneSize(640,640),
 	mouse_pointer_in_board_img_rect(false)
 {
 	//bg_image_=new QImage();
-	cross=new BigCross();
+	
 	setBackgroundBrush(QColor("#393939"));
 	openCVImage=new OpenCVImage();
-	gridItem=new GridItem();
+
 
 }
 
 GridScene::~GridScene()
 {
-	delete gridItem;
+
 }
 /*Bring into line phisical and logical size board
 logical size must been multiplies phisical size
@@ -68,39 +67,42 @@ void GridScene::drawGridLegend(const QSize& sizeGrid)
 
 void GridScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+	//QGraphicsScene::mouseMoveEvent(mouseEvent);
+	
 
 	cursor_position.setX(mouseEvent->scenePos().x());
 	cursor_position.setY(mouseEvent->scenePos().y());
-	CrossDimention cross_dimention;
-	
-	if(board_img_rect.contains(cursor_position,true))
-	{
-		qDebug()<<"Cursor position in scene:"<< cursor_position;
-		qDebug()<<"BoardImgRect:"<< board_img_rect;
-		cross_dimention.dX1=-(cursor_position.x()-boardMargin::LEFT_MARGIN);
-		
+	update();
+	//CrossDimention cross_dimention;
+	//
+	//if(board_img_rect.contains(cursor_position,true))
+	//{
+	//	qDebug()<<"Cursor position in scene:"<< cursor_position;
+	//	qDebug()<<"BoardImgRect:"<< board_img_rect;
+	//	cross_dimention.dX1=-(cursor_position.x()-boardMargin::LEFT_MARGIN);
+	//	
 
-		cross_dimention.dY1=-(cursor_position.y()-boardMargin::TOP_MARGIN);
-		cross_dimention.dX2=board_img_rect.width()+cross_dimention.dX1;
-		cross_dimention.dY2=board_img_rect.height()+cross_dimention.dY1;
-		QApplication::setOverrideCursor(Qt::BlankCursor/*Qt::CrossCursor*/);
-		
-		cross->setBoundingRect(cross_dimention);
-		cross->setPos(mouseEvent->scenePos() );
-		cross->show();
-		mouse_pointer_in_board_img_rect=true;
-		QPointF boardCoordinate=translate_to_board_coordinate(cursor_position);
-		emit change_cursor_position(translate_to_phisical_coordinate(boardCoordinate,pixel_in_mm));
+	//	cross_dimention.dY1=-(cursor_position.y()-boardMargin::TOP_MARGIN);
+	//	cross_dimention.dX2=board_img_rect.width()+cross_dimention.dX1;
+	//	cross_dimention.dY2=board_img_rect.height()+cross_dimention.dY1;
+	//	QApplication::setOverrideCursor(Qt::BlankCursor/*Qt::CrossCursor*/);
+	//	
+	//	cross->setCrossDimention(cross_dimention);
+	//	cross->setPos(mouseEvent->scenePos() );
+	//	cross->show();
+	//	mouse_pointer_in_board_img_rect=true;
+	//	QPointF boardCoordinate=translate_to_board_coordinate(cursor_position);
+	//	emit change_cursor_position(translate_to_phisical_coordinate(boardCoordinate,pixel_in_mm));
 
-	}
-	else
-	{
-		QApplication::setOverrideCursor(Qt::ArrowCursor);
-		cross->hide();
+	//}
+	//else
+	//{
+	//	QApplication::setOverrideCursor(Qt::ArrowCursor);
+	//	cross->hide();
 
-		mouse_pointer_in_board_img_rect=false;
+	//	mouse_pointer_in_board_img_rect=false;
 
-	}
+	//}
 }
 void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
@@ -211,15 +213,30 @@ void GridScene::adjustBoardImg(const QSize& sizeBoardInMM)
 	clear();
 	board_PixmapItem=addPixmap(board_img);
 	board_PixmapItem->setPos(originScenePoint());
+	
+
 
 }
 void GridScene::adjustGrid()
 {
+	cross=new BigCross();
+	//	QRectF crossBoundingRect(-20000,-20000,40000,40000);
+	//	cross=new BigCross(sceneRect().translated(sceneRect().width(),sceneRect().height()));
+	//	cross->setPos(board_PixmapItem->pos());
+	//addItem(cross);
+	QPen pen(Qt::red, 2, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+	addRect(sceneRect(),pen,QBrush(Qt::NoBrush));
+	gridItem=new GridItem();
 	gridItem->setBoardPhisicalSize(boardPhisicalSize);
-	gridItem->setPos(originScenePoint());
+	gridItem->setPos(board_PixmapItem->pos());
+	gridItem->setFlag(QGraphicsItem::ItemClipsChildrenToShape);
 	addItem(gridItem);
+	update();
+	//cross->setZValue(gridItem->zValue()+1);
+	//cross=new BigCross(gridItem,crossBoundingRect);
+	//setSceneRect(itemsBoundingRect());
+	//cross->setPos(QPointF(sceneRect().width()/2,sceneRect().height()/2));
 
-	addItem(cross);
 }
 
 QPointF GridScene::originScenePoint(void)
@@ -231,4 +248,16 @@ QPointF GridScene::originScenePoint(void)
 QRect GridScene::boardImgRect()
 {
 	return board_img_rect;
+}
+void GridScene::drawForeground(QPainter * painter, const QRectF & rect) 
+{
+painter->setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+
+	QPen ROP_pen(Qt::white, 1, Qt::SolidLine);
+	ROP_pen.setCosmetic(true);
+	painter->setPen(ROP_pen);
+
+	painter->drawLine(QPoint(cursor_position.x(),0),QPoint(cursor_position.x(),rect.height()));
+	painter->drawLine(QPoint(0,cursor_position.y()),QPoint(rect.width(),cursor_position.y()));
+
 }

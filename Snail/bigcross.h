@@ -21,8 +21,10 @@ class BigCross : public QGraphicsObject
 	}_BigCrossBoundingRect;
 public:
 	BigCross();
+	BigCross(QGraphicsItem *parent,const QRectF& boardImgRect);
+	BigCross(const QRectF& boardImgRect);
 	~BigCross();
-	void	setBoundingRect(const CrossDimention& cross_dimention);
+	void	setCrossDimention(const CrossDimention& cross_dimention);
 private:
 	QRectF bounding_rect;
 
