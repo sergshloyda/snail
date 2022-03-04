@@ -47,7 +47,7 @@ void GridItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 void GridItem::drawHorizRuler(QPainter *painter,const QPointF& origin,int length,int step,int mult_length_dash)
 {
 
-	int ruler_origin=1;
+	int ruler_origin=RulerTraits::RULER_ORIGIN;
 
 	int step_cm=0;
 	int step_mm=0;
@@ -56,32 +56,27 @@ void GridItem::drawHorizRuler(QPainter *painter,const QPointF& origin,int length
 	{
 		if(!(i%step))
 		{
-
-
-			//pen_thin.setWidthF(0.8);
 			step_mm+=step;
-			if (!(i%step)&&((i%(step*5))&&(i%(step*10)))) {
+			if (!(i%step)&&((i%(step*RulerTraits::STEP_HALF_CM))&&(i%(step*RulerTraits::STEP_CM)))) {
 				
 				painter->setPen(pen_thin);
 				QLine dash_mm(QPoint(origin.x()+step_mm,origin.y()),QPoint(origin.x()+step_mm,origin.y()+step));
-					/*qDebug() << counter++;
-					qDebug() << "Draw mm line #:" << dash_mm;*/
 				painter->drawLine(dash_mm);
 			}
-		 if(!(i%(step*5))&&(i%(step*10))) {
+		 if(!(i%(step*RulerTraits::STEP_HALF_CM))&&(i%(step*RulerTraits::STEP_CM))) {
 				painter->setPen(pen_thin);
 				QLine dash_mm(QPoint(origin.x()+step_mm,origin.y()),QPoint(origin.x()+step_mm,origin.y()+step*mult_length_dash));
 				painter->drawLine(dash_mm);
 			}
 		}
-		if(!(i%(step*10)))
+		if(!(i%(step*RulerTraits::STEP_CM)))
 		{
-					//qDebug()<<"Draw cm line #:"+counter++;
+				
 			
-			step_cm+=step*10;
+			step_cm+=step*RulerTraits::STEP_CM;
 			painter->setPen(pen_fat);
 			QLine dash_cm(QPoint(origin.x()+step_cm,origin.y()),QPoint(origin.x()+step_cm,origin.y()+step*mult_length_dash));
-					//qDebug()<<dash_cm;
+		
 			painter->drawLine(dash_cm);
 		}
 
@@ -90,7 +85,7 @@ void GridItem::drawHorizRuler(QPainter *painter,const QPointF& origin,int length
 void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,int step,int mult_length_dash)
 {
 
-	int ruler_origin=1;
+	int ruler_origin=RulerTraits::RULER_ORIGIN;
 
 	int step_cm=0,step_mm=0;
 	int counter=1;
@@ -101,7 +96,7 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 
 		
 			step_mm+=step;
-			if (!(i%step)&&((i%(step*5))&&(i%(step*10)))) { 
+		    if (!(i%step)&&((i%(step*RulerTraits::STEP_HALF_CM))&&(i%(step*RulerTraits::STEP_CM))))  { 
 				
 		
 				painter->setPen(pen_thin);
@@ -110,7 +105,7 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 				
 			}
 			
-				 if(!(i%(step*5))&&(i%(step*10))) {
+				 if(!(i%(step*RulerTraits::STEP_HALF_CM))&&(i%(step*RulerTraits::STEP_CM))) {
 				
 			
 				painter->setPen(pen_thin);
@@ -119,11 +114,11 @@ void GridItem::drawVertRuler(QPainter *painter,const QPointF& origin,int length,
 				}
 				//continue;
 			
-						if(!(i%(step*10))) {
+					if(!(i%(step*RulerTraits::STEP_CM))) {
 							
 	
 			painter->setPen(pen_fat);
-			step_cm+=step*10;
+		step_cm+=step*RulerTraits::STEP_CM;
 			QLine dash_cm(QPoint(origin.x(),origin.y()+step_cm),QPoint(origin.x()+step*mult_length_dash,origin.y()+step_cm));
 			painter->drawLine(dash_cm);
 						
@@ -147,4 +142,11 @@ void GridItem::drawGridLegend(QPainter *painter)
 	painter->drawText((boundingRect().bottomLeft()+QPoint(10,-10)),left_bottom_txt);
 
 
+}
+
+
+QSize GridItem::pixelInMM() 
+{
+	this->calculatePixelInMm();
+	return pixel_in_mm;
 }

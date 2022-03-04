@@ -30,6 +30,9 @@ public:
 	bool loadBackgroundImg(const QString& fileName);
 	bool loadOpenCVImg(const QString& fileName);
 	QGraphicsPixmapItem* pixmapItem();
+	void adjustBoardImg(const QSize& sizeBoardInMM);
+	void adjustGrid();
+	QRectF boardImgRect();
 private:
 	CrossPoint* myPoint;
 	QPixmap board_img;
@@ -38,11 +41,10 @@ private:
 	QSize pixel_in_mm;
 	QSize sceneSize;
 	QSize boardPhisicalSize;
-	QRect board_img_rect;
-	bool mouse_pointer_in_board_img_rect;
+	QRectF board_img_rect;
+	bool mousePointerInBoardImgRect;
 	QPoint cursor_position;
 	QCursor cursor_target;
-	BigCross* cross;
 	OpenCVImage* openCVImage;
 	GridItem* gridItem;
 protected:
@@ -50,19 +52,17 @@ protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
 	void drawForeground(QPainter * painter, const QRectF & rect) ;
-	signals:
-		void change_cursor_position(const QPointF& pos);
+
 
 private:
 	void scaleBoardImg(const QSize& sizeBoard);
-	void drawGridLegend(const QSize& sizeGrid=QSize(0,0));
-	QPointF translate_to_board_coordinate(const QPoint& inPoint);
-	QPointF translate_to_phisical_coordinate(const QPointF& in,const QSize& pixel_in_mm);
+	QPointF translateToBoardCoordinate(const QPointF& inPoint);
+	QPointF translateToPhisicalCoordinate(const QPointF& in,const QSize& pixel_in_mm);
 	QPointF originScenePoint();
 public:
-	void adjustBoardImg(const QSize& sizeBoardInMM);
-	void adjustGrid();
-	QRect boardImgRect();
+		signals:
+		void changeCursorPosition(const QPointF& pos);
+
 };
 
 #endif // GRIDSCENE_H

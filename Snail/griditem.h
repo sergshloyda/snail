@@ -34,6 +34,8 @@ private:
 	QPen pen_fat;
 	QSize pixel_in_mm;
 	QSize phisicalSize;
+public:
+	QSize pixelInMM();
 };
 
 #endif // GRIDITEM_H
