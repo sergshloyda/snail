@@ -14,7 +14,7 @@
    <string>Snail</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="5,1">
     <item row="0" column="0">
      <widget class="QScaledGraphView" name="graphicsView"/>
     </item>
@@ -32,6 +32,9 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QListView" name="listView"/>
       </item>
       <item>
        <widget class="QPushButton" name="btnUploadPoints">

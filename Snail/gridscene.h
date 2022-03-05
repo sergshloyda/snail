@@ -61,7 +61,7 @@ private:
 	QPointF originScenePoint();
 public:
 		signals:
-		void changeCursorPosition(const QPointF& pos);
+		void changeCursorPosition(const QString& newPos);
 
 };
 

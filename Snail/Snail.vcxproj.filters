@@ -110,6 +110,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_boardsizedlg.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_cursorposlabel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_cursorposlabel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="cursorposlabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="snail.h">
@@ -140,6 +149,9 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="boardsizedlg.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="cursorposlabel.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

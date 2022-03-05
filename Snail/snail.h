@@ -5,7 +5,7 @@
 #include <QGuiApplication>
 #include "ui_snail.h"
 #include "gridscene.h"
-
+#include "cursorposlabel.h"
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
@@ -23,8 +23,11 @@ public slots:
 		void on_btnAdjGrid_clicked();
 
 private:
+	CursorPosLabel* cursorPosLabel;
 	Ui::SnailClass ui;
 
+	void additionalSetupUI();
+	void connectSignals(void);
 };
 
 #endif // SNAIL_H

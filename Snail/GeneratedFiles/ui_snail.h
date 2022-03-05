@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -35,6 +36,7 @@ public:
     QScaledGraphView *graphicsView;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
+    QListView *listView;
     QPushButton *btnUploadPoints;
     QPushButton *btnAdjGrid;
     QPushButton *btnAdjustImg;
@@ -66,6 +68,11 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        listView = new QListView(centralWidget);
+        listView->setObjectName(QStringLiteral("listView"));
+
+        verticalLayout->addWidget(listView);
+
         btnUploadPoints = new QPushButton(centralWidget);
         btnUploadPoints->setObjectName(QStringLiteral("btnUploadPoints"));
 
@@ -89,6 +96,8 @@ public:
 
         gridLayout->addLayout(verticalLayout, 0, 1, 1, 1);
 
+        gridLayout->setColumnStretch(0, 5);
+        gridLayout->setColumnStretch(1, 1);
         SnailClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SnailClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));

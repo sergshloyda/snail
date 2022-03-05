@@ -51,20 +51,22 @@ void GridScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	QRectF matchRect(topLeft,sizeRect);
 
 	if(matchRect.contains(cursor_position)){
-	qDebug()<<"Cursor position in scene:"<< cursor_position;
 
 		QApplication::setOverrideCursor(Qt::BlankCursor/*Qt::CrossCursor*/);
 	
 		mousePointerInBoardImgRect=true;
 		QPointF boardCoordinate=translateToBoardCoordinate(cursor_position);
-		
-		emit changeCursorPosition(translateToPhisicalCoordinate(boardCoordinate,pixel_in_mm));
+		QPointF phisCoordinate=translateToPhisicalCoordinate(boardCoordinate,pixel_in_mm);
+		 QString txtNewPos = QString("X=%1, Y=%2")
+               .arg(phisCoordinate.x(),0,'f',1)
+              .arg(phisCoordinate.y(),0,'f',1); 
+		 emit changeCursorPosition(txtNewPos);
 
 	}
 	else
 	{
 		QApplication::setOverrideCursor(Qt::ArrowCursor);
-
+		emit changeCursorPosition("Out of board");
 
 		mousePointerInBoardImgRect=false;
 
@@ -76,7 +78,7 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 	if(!mousePointerInBoardImgRect) return /*QGraphicsScene::mousePressEvent(event)*/;
 	if (!event->isAccepted()) {
 		if (event->button() == Qt::LeftButton) {
-			// Добавляем настраиваемый элемент в сцену
+
 			QPointF point = event->scenePos();
 			CrossPoint *item = new CrossPoint();
 			item->setPos(point);
@@ -86,7 +88,7 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 				));
 			addItem(item);
 		} else if (event->button() == Qt::RightButton) {
-			// Проверяем, есть ли под курсором элемент
+	
 			QGraphicsItem *itemToRemove = NULL;
 			foreach (QGraphicsItem *item, items(event->scenePos())) {
 				if (item->type() == QGraphicsItem::UserType+1) {
@@ -94,7 +96,7 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 					break;
 				}
 			}
-			// Удаляем элемент из сцены
+		
 			if (itemToRemove != NULL)
 				removeItem(itemToRemove);
 		}
@@ -121,8 +123,6 @@ QPointF GridScene::translateToPhisicalCoordinate(const QPointF& in,const QSize& 
 
 void GridScene::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Delete) {
-		// Удаляем все выбранные элементы
-		qDebug() << "selected items " << selectedItems().size();
 		while (!selectedItems().isEmpty()) {
 			removeItem(selectedItems().front());
 		}

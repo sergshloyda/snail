@@ -6,6 +6,10 @@ Snail::Snail(QWidget *parent)
 {
 	ui.setupUi(this);
 	resize(QDesktopWidget().availableGeometry(this).size() * 0.7);
+	additionalSetupUI();
+	connectSignals();
+
+ 
 
 }
 
@@ -52,4 +56,19 @@ void Snail::on_btnAdjGrid_clicked()
 		gridScene->adjustGrid();
 		ui.graphicsView->setMouseTracking(true);
 
+}
+
+void Snail::additionalSetupUI()
+{
+	cursorPosLabel=new CursorPosLabel(this);
+    statusBar()->addPermanentWidget(cursorPosLabel);
+	QLabel* statusRight = new QLabel("Right", this);
+    statusRight->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	statusBar()->addPermanentWidget(statusRight,1);
+}
+
+
+void Snail::connectSignals()
+{
+	connect(ui.graphicsView->scene(),SIGNAL(changeCursorPosition(const QString&)),cursorPosLabel,SLOT(ChangeLabelText(const QString&)));
 }

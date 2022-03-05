@@ -33,25 +33,21 @@ public:
         std::vector<cv::Point2f> imageCorners;
         std::vector<cv::Point3f> objectCorners;
 		boardSize_=boardSize;
-        //initialize the chessboard corners in the chessboard reference frame
-        //3d scene points
+
         for(int i = 0; i<boardSize.height; i++){
             for(int j=0;j<boardSize.width;j++){
                 objectCorners.push_back(cv::Point3f(float(i)*squareLenght,float(j)*squareLenght,0.0f));
             }
         }
-        //2D Image points:
+    
         cv::Mat image; //to contain chessboard image
         int successes = 0;
-        //cv::namedWindow("Chess");
+    
         for(itImg=filelist.begin(); itImg!=filelist.end(); itImg++){
             image = cv::imread(*itImg,0);
-		//	cv::resize(image, image, cv::Size(0,0),0.3,0.3);//картинка будет 20% от изначальной
-			//cv::cvtColor(image, image, CV_RGB2GRAY);
+
             bool found = cv::findChessboardCorners(image, boardSize, imageCorners);
-            //cv::drawChessboardCorners(image, boardSize, imageCorners, found);
-            //cv::imshow("Chess",image);
-            //cv::waitKey(1000);
+
             cv::cornerSubPix(image, imageCorners, cv::Size(5,5),cv::Size(-1,-1),
                 cv::TermCriteria(cv::TermCriteria::MAX_ITER+cv::TermCriteria::EPS,30,0.1));
             //if we have a good board, add it to our data
@@ -63,17 +59,16 @@ public:
         return successes;
     }
     void addPoints(const std::vector<cv::Point2f>& imageCorners,const std::vector<cv::Point3f>& objectCorners){
-        //2D image point from one view
+     
         imagePoints.push_back(imageCorners);
-        //corresponding 3D scene points
+
         objectPoints.push_back(objectCorners);
     }
     double calibrate(cv::Size &imageSize){
         mustInitUndistort = true;
         std::vector<cv::Mat> rvecs,tvecs;
 	
-		//flag |= cv::CALIB_ZERO_TANGENT_DIST;
-		//flag |= cv::CALIB_FIX_PRINCIPAL_POINT;
+
         return
             cv::calibrateCamera(objectPoints, //the 3D points
                 imagePoints,
@@ -84,7 +79,7 @@ public:
                 flag);
     }
     void remap(const cv::Mat &image, cv::Mat &undistorted){
-	//	qDebug()<< cameraMatrix.data;
+
 		std::cout<<cameraMatrix;
         if(mustInitUndistort){ //called once per calibration
             cv::initUndistortRectifyMap(
