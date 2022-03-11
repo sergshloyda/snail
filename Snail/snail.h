@@ -3,12 +3,14 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QGuiApplication>
-#include "ui_snail.h"
-#include "gridscene.h"
-#include "cursorposlabel.h"
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
+
+#include "ui_snail.h"
+#include "gridscene.h"
+#include "cursorposlabel.h"
+#include "BoardPoinsModel.h"
 
 class Snail : public QMainWindow
 {
@@ -22,9 +24,12 @@ public slots:
 		void on_btnAdjustImg_clicked();
 		void on_btnAdjGrid_clicked();
 
+		void addPointInList(const BoardPoint& newPoint);
+
 private:
 	CursorPosLabel* cursorPosLabel;
 	Ui::SnailClass ui;
+	BoardPointsModel* boardPointsModel;
 
 	void additionalSetupUI();
 	void connectSignals(void);

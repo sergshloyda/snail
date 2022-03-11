@@ -9,6 +9,8 @@ Snail::Snail(QWidget *parent)
 	additionalSetupUI();
 	connectSignals();
 
+
+
  
 
 }
@@ -65,10 +67,23 @@ void Snail::additionalSetupUI()
 	QLabel* statusRight = new QLabel("Right", this);
     statusRight->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	statusBar()->addPermanentWidget(statusRight,1);
+
+	boardPointsModel=new BoardPointsModel();
+	ui.listView->setModel(boardPointsModel);
 }
 
 
 void Snail::connectSignals()
 {
 	connect(ui.graphicsView->scene(),SIGNAL(changeCursorPosition(const QString&)),cursorPosLabel,SLOT(ChangeLabelText(const QString&)));
+	connect(ui.graphicsView->scene(),SIGNAL(addPointInList(const BoardPoint& )),this,SLOT(addPointInList(const BoardPoint&)));
 }
+
+
+void Snail::addPointInList(const BoardPoint& newPoint)
+{
+	
+	qDebug() << "Signal received"<< newPoint.getPointTag();
+	boardPointsModel->append(newPoint);
+}
+

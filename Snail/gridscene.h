@@ -2,22 +2,24 @@
 #define GRIDSCENE_H
 
 #include <QGraphicsScene>
-
+#include <QKeyEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QTimer>
 #include <QDebug>
+#include <QMargins>
 #include "crosspoint.h"
 #include <QPixmap>
 #include <qcursor.h>
 #include "bigcross.h"
-#include <QKeyEvent>
 #include "OpenCVImage.h"
 #include "griditem.h"
-#include <QMargins>
+#include "BoardPoint.h"
+
 class GridScene : public QGraphicsScene
 {
 	Q_OBJECT
 
+	static int newPointIndex;
 
 	enum boardMargin{
 		LEFT_MARGIN=100,
@@ -33,6 +35,8 @@ public:
 	void adjustBoardImg(const QSize& sizeBoardInMM);
 	void adjustGrid();
 	QRectF boardImgRect();
+	static int incrementPointIndex(){ return newPointIndex++;}
+	static int decrementPointIndex(){ return newPointIndex--;}
 private:
 	CrossPoint* myPoint;
 	QPixmap board_img;
@@ -62,6 +66,7 @@ private:
 public:
 		signals:
 		void changeCursorPosition(const QString& newPos);
+		void addPointInList(const BoardPoint& newPoint);
 
 };
 

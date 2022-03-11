@@ -3,6 +3,9 @@
 #include <qmath.h>
 class QGraphicsTextItem;
 class QGraphicsRectItem;
+
+int GridScene::newPointIndex=1;
+
 GridScene::GridScene(QObject *parent)
 	: QGraphicsScene(parent),
 	mousePointerInBoardImgRect(false)
@@ -87,6 +90,10 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 				translateToPhisicalCoordinate(translateToBoardCoordinate(point),pixel_in_mm)
 				));
 			addItem(item);
+			int newPointIndex=incrementPointIndex();
+			QString pointTag = QString("Point #%1").arg(newPointIndex); 
+			BoardPoint boardPoint(translateToPhisicalCoordinate(translateToBoardCoordinate(point),pixel_in_mm),pointTag);
+			emit addPointInList(boardPoint);
 		} else if (event->button() == Qt::RightButton) {
 	
 			QGraphicsItem *itemToRemove = NULL;
