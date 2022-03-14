@@ -85,27 +85,34 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 			QPointF point = event->scenePos();
 			CrossPoint *item = new CrossPoint();
 			item->setPos(point);
-		
+			int newPointIndex=incrementPointIndex();
+			item->setData(0,QVariant(newPointIndex));
 			item->setData(1,QVariant(
 				translateToPhisicalCoordinate(translateToBoardCoordinate(point),pixel_in_mm)
 				));
 			addItem(item);
-			int newPointIndex=incrementPointIndex();
-			QString pointTag = QString("Point #%1").arg(newPointIndex); 
+			QString pointTag = QString("Point (%1)").arg(newPointIndex); 
 			BoardPoint boardPoint(translateToPhisicalCoordinate(translateToBoardCoordinate(point),pixel_in_mm),pointTag);
-			emit addPointInList(boardPoint);
+			emit addPointInBoardPointsModel(boardPoint);
+
 		} else if (event->button() == Qt::RightButton) {
 	
 			QGraphicsItem *itemToRemove = NULL;
 			foreach (QGraphicsItem *item, items(event->scenePos())) {
 				if (item->type() == QGraphicsItem::UserType+1) {
 					itemToRemove = item;
+				
 					break;
 				}
 			}
 		
 			if (itemToRemove != NULL)
+			{
+				int indx=itemToRemove->data(0).toInt();
+				qDebug() << "Point #" <<indx;
 				removeItem(itemToRemove);
+				emit removePointFromBoardPointsModel(indx);
+			}
 		}
 	}
 

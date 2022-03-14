@@ -24,7 +24,8 @@ public slots:
 		void on_btnAdjustImg_clicked();
 		void on_btnAdjGrid_clicked();
 
-		void addPointInList(const BoardPoint& newPoint);
+		void addPointInBoardPointsModel(const BoardPoint& newPoint);
+		void removePointFromBoardPointsModel(int indx);
 
 private:
 	CursorPosLabel* cursorPosLabel;

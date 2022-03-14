@@ -76,14 +76,19 @@ void Snail::additionalSetupUI()
 void Snail::connectSignals()
 {
 	connect(ui.graphicsView->scene(),SIGNAL(changeCursorPosition(const QString&)),cursorPosLabel,SLOT(ChangeLabelText(const QString&)));
-	connect(ui.graphicsView->scene(),SIGNAL(addPointInList(const BoardPoint& )),this,SLOT(addPointInList(const BoardPoint&)));
+	connect(ui.graphicsView->scene(),SIGNAL(addPointInBoardPointsModel(const BoardPoint& )),this,SLOT(addPointInBoardPointsModel(const BoardPoint&)));
+	connect(ui.graphicsView->scene(),SIGNAL(removePointFromBoardPointsModel(int)),this,SLOT(removePointFromBoardPointsModel(int)));
+
 }
 
 
-void Snail::addPointInList(const BoardPoint& newPoint)
+void Snail::addPointInBoardPointsModel(const BoardPoint& newPoint)
 {
 	
 	qDebug() << "Signal received"<< newPoint.getPointTag();
 	boardPointsModel->append(newPoint);
 }
-
+void Snail::removePointFromBoardPointsModel(int indx)
+{
+	boardPointsModel->deleteRow(indx);
+}

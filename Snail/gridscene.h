@@ -64,9 +64,10 @@ private:
 	QPointF translateToPhisicalCoordinate(const QPointF& in,const QSize& pixel_in_mm);
 	QPointF originScenePoint();
 public:
-		signals:
+	signals:
 		void changeCursorPosition(const QString& newPos);
-		void addPointInList(const BoardPoint& newPoint);
+		void addPointInBoardPointsModel(const BoardPoint& newPoint);
+		void removePointFromBoardPointsModel(int indx);
 
 };
 
