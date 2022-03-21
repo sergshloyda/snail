@@ -12,6 +12,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 	void append(const BoardPoint& value);
 	void deleteRow(int idx);
+	void clear();
 
 private:
     QList<BoardPoint> *values;

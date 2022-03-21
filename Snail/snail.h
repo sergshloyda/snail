@@ -6,7 +6,8 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
-
+#include <QStateMachine>
+#include <QFinalState>
 #include "ui_snail.h"
 #include "gridscene.h"
 #include "cursorposlabel.h"
@@ -23,17 +24,28 @@ public slots:
 		void on_btnLoad_clicked();
 		void on_btnAdjustImg_clicked();
 		void on_btnAdjGrid_clicked();
+		void on_btnUploadPoints_clicked();
 
 		void addPointInBoardPointsModel(const BoardPoint& newPoint);
 		void removePointFromBoardPointsModel(int indx);
+
+		void slotSetInitialState();
+		void update();
 
 private:
 	CursorPosLabel* cursorPosLabel;
 	Ui::SnailClass ui;
 	BoardPointsModel* boardPointsModel;
+	QStateMachine machine;
+	QFinalState *finalState;
+    QState *initialState ;
+	bool stateMachineFlag;
 
 	void additionalSetupUI();
 	void connectSignals(void);
+	void settingStateMachine(Ui::SnailClass& my_ui);
+	void setStateMachineInInitialState();
+	void setUpdateBtnTimer();
 };
 
 #endif // SNAIL_H

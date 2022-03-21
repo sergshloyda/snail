@@ -79,4 +79,8 @@ void BoardPointsModel::deleteRow(int idx)
 
 	this->endRemoveRows();
 }
-/**/
+void BoardPointsModel::clear()
+{
+	int rowIdx = 0;
+	this->removeRows(rowIdx,values->count(),QModelIndex());
+}
