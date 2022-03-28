@@ -10,10 +10,12 @@
 #include "crosspoint.h"
 #include <QPixmap>
 #include <qcursor.h>
+#include <QAbstractItemModel>
 #include "bigcross.h"
 #include "OpenCVImage.h"
 #include "griditem.h"
 #include "BoardPoint.h"
+#include "BoardPoinsModel.h"
 
 class GridScene : public QGraphicsScene
 {
@@ -35,6 +37,8 @@ public:
 	void adjustBoardImg(const QSize& sizeBoardInMM);
 	void adjustGrid();
 	QRectF boardImgRect();
+	void setModel(QAbstractItemModel* model);
+	void clearScene();
 	static int incrementPointIndex(){ return newPointIndex++;}
 	static int decrementPointIndex(){ return newPointIndex--;}
 private:
@@ -51,6 +55,7 @@ private:
 	QCursor cursor_target;
 	OpenCVImage* openCVImage;
 	GridItem* gridItem;
+	BoardPointsModel* boardPointsModel;
 protected:
     void keyPressEvent(QKeyEvent *event);
 	void mousePressEvent(QGraphicsSceneMouseEvent * event);

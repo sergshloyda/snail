@@ -71,7 +71,7 @@ void Snail::on_btnAdjGrid_clicked()
 
 	gridScene->adjustGrid();
 	ui.graphicsView->setMouseTracking(true);
-
+	gridScene->setModel(boardPointsModel);
 	setUpdateBtnTimer();
 
 }
@@ -79,7 +79,9 @@ void Snail::on_btnAdjGrid_clicked()
 void Snail::on_btnUploadPoints_clicked()
 {
 	//TODO model must clear from elrments;scene must redraw (модель должна очищаться от элементов ;сцена перерисовываться)
-	boardPointsModel->clear();
+	//boardPointsModel->clear();
+		GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
+		gridScene->clearScene();
 }
 
 void Snail::additionalSetupUI()
@@ -97,21 +99,11 @@ void Snail::additionalSetupUI()
 void Snail::connectSignals()
 {
 	connect(ui.graphicsView->scene(),SIGNAL(changeCursorPosition(const QString&)),cursorPosLabel,SLOT(ChangeLabelText(const QString&)));
-	connect(ui.graphicsView->scene(),SIGNAL(addPointInBoardPointsModel(const BoardPoint& )),this,SLOT(addPointInBoardPointsModel(const BoardPoint&)));
-	connect(ui.graphicsView->scene(),SIGNAL(removePointFromBoardPointsModel(int)),this,SLOT(removePointFromBoardPointsModel(int)));
 
 }
 
 
-void Snail::addPointInBoardPointsModel(const BoardPoint& newPoint)
-{
 
-	boardPointsModel->append(newPoint);
-}
-void Snail::removePointFromBoardPointsModel(int indx)
-{
-	boardPointsModel->deleteRow(indx);
-}
 void Snail::settingStateMachine(Ui::SnailClass& my_ui)
 {
 	machine.addState(initialState);

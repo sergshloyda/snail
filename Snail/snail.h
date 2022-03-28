@@ -26,9 +26,7 @@ public slots:
 		void on_btnAdjGrid_clicked();
 		void on_btnUploadPoints_clicked();
 
-		void addPointInBoardPointsModel(const BoardPoint& newPoint);
-		void removePointFromBoardPointsModel(int indx);
-
+		
 		void slotSetInitialState();
 		void update();
 

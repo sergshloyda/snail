@@ -93,7 +93,8 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 			addItem(item);
 			QString pointTag = QString("Point (%1)").arg(newPointIndex); 
 			BoardPoint boardPoint(translateToPhisicalCoordinate(translateToBoardCoordinate(point),pixel_in_mm),pointTag);
-			emit addPointInBoardPointsModel(boardPoint);
+			boardPointsModel->append(boardPoint);
+		
 
 		} else if (event->button() == Qt::RightButton) {
 	
@@ -111,7 +112,8 @@ void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 				int indx=itemToRemove->data(0).toInt();
 				qDebug() << "Point #" <<indx;
 				removeItem(itemToRemove);
-				emit removePointFromBoardPointsModel(indx);
+				boardPointsModel->deleteRow(indx);
+		
 			}
 		}
 	}
@@ -138,7 +140,9 @@ QPointF GridScene::translateToPhisicalCoordinate(const QPointF& in,const QSize& 
 void GridScene::keyPressEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Delete) {
 		while (!selectedItems().isEmpty()) {
-			removeItem(selectedItems().front());
+			QGraphicsItem *item=selectedItems().front();
+			removeItem(item);
+			boardPointsModel->deleteRow(item->data(0).toInt());
 		}
 	} else if(event->key()==Qt::Key_Up)
 	{
@@ -229,4 +233,21 @@ void GridScene::drawForeground(QPainter * painter, const QRectF & rect)
 		painter->drawLine(QPoint(0,cursor_position.y()),QPoint(sceneRect().width(),cursor_position.y()));
 	}
 
+}
+
+void GridScene::setModel(QAbstractItemModel* model)
+{
+	boardPointsModel=static_cast<BoardPointsModel*>(model);
+}
+void GridScene::clearScene()
+{
+
+			foreach (QGraphicsItem *item, items()) {
+				removeItem(item);
+				if (item->type() == QGraphicsItem::UserType+1) {
+					
+					boardPointsModel->deleteRow(item->data(0).toInt());
+					}
+			}
+			mousePointerInBoardImgRect=false;
 }
