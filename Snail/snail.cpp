@@ -78,6 +78,7 @@ void Snail::on_btnAdjGrid_clicked()
 
 void Snail::on_btnUploadPoints_clicked()
 {
+	//TODO model must clear from elrments;scene must redraw (модель должна очищаться от элементов ;сцена перерисовываться)
 	boardPointsModel->clear();
 }
 
