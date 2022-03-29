@@ -29,7 +29,8 @@ public slots:
 		
 		void slotSetInitialState();
 		void update();
-
+signals:
+		void adjustImgFinished();
 private:
 	CursorPosLabel* cursorPosLabel;
 	Ui::SnailClass ui;

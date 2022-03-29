@@ -39,6 +39,7 @@ public:
 	QRectF boardImgRect();
 	void setModel(QAbstractItemModel* model);
 	void clearScene();
+
 	static int incrementPointIndex(){ return newPointIndex++;}
 	static int decrementPointIndex(){ return newPointIndex--;}
 private:

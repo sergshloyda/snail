@@ -36,6 +36,7 @@ private:
 	QSize phisicalSize;
 public:
 	QSize pixelInMM();
+	int type() const;
 };
 
 #endif // GRIDITEM_H

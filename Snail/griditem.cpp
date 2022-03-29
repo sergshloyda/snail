@@ -150,3 +150,7 @@ QSize GridItem::pixelInMM()
 	this->calculatePixelInMm();
 	return pixel_in_mm;
 }
+int GridItem::type() const
+{
+    return UserType + 2;
+}

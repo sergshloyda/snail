@@ -57,6 +57,7 @@ void Snail::on_btnAdjustImg_clicked()
 		GridScene* gridScene=reinterpret_cast<GridScene*>(ui.graphicsView->scene());
 		gridScene->adjustBoardImg(dlg->boardSize());
 		QApplication::restoreOverrideCursor();	
+		emit adjustImgFinished();
 	}
 	delete dlg;
 
@@ -140,7 +141,7 @@ void Snail::settingStateMachine(Ui::SnailClass& my_ui)
 	initialState->setInitialState(s11);
 
 	s11->addTransition(my_ui.btnLoad, SIGNAL(clicked()), s21);
-	s21->addTransition(my_ui.btnAdjustImg, SIGNAL(clicked()), s31);
+	s21->addTransition(this, SIGNAL(adjustImgFinished()), s31);
 	s31->addTransition(my_ui.btnAdjGrid, SIGNAL(clicked()), s41);
 
 	initialState->addTransition(my_ui.btnUploadPoints, SIGNAL(clicked()), finalState);

@@ -45,6 +45,12 @@ void GridScene::scaleBoardImg(const QSize& sizeBoard)
 void GridScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 
+	bool gridOnScene=false;
+		foreach (QGraphicsItem *item, items()) {
+			if (item->type() == QGraphicsItem::UserType+2)
+				gridOnScene=true;
+			}
+		if(!gridOnScene)return;
 	cursor_position.setX(mouseEvent->scenePos().x());
 	cursor_position.setY(mouseEvent->scenePos().y());
 	update();
@@ -74,6 +80,7 @@ void GridScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		mousePointerInBoardImgRect=false;
 
 	}
+
 }
 void GridScene::mousePressEvent(QGraphicsSceneMouseEvent * event)
 {
@@ -243,11 +250,12 @@ void GridScene::clearScene()
 {
 
 			foreach (QGraphicsItem *item, items()) {
-				removeItem(item);
+				//removeItem(item);
 				if (item->type() == QGraphicsItem::UserType+1) {
 					
 					boardPointsModel->deleteRow(item->data(0).toInt());
 					}
 			}
+			this->clear();
 			mousePointerInBoardImgRect=false;
 }
